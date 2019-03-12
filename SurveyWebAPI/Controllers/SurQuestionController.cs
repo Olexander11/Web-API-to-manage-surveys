@@ -16,24 +16,40 @@ namespace SurveyWebAPI.Controllers
         {
             this.db = context;
         }
-               
+
         // List all questions for a survey : [GET] /surveyquestions/{questionId}
         [HttpGet]
-        public IEnumerable<string> GetSurveyQuestions()
+        public IEnumerable<Question> GetSurveyQuestions(int id)
         {
-            return new string[] { "value1", "value2" };
+            Survey survey = db.Surveys.FirstOrDefault(x => x.Id == id);
+            return  survey.SurveyQuestions.ToList();
+            
         }
 
         // Add question to list of the questions in survey: [POST] /survey/{id}
         [HttpPost]
-        public void PostSurveyQuestion([FromBody]string value)
+        public IActionResult PostSurveyQuestion(Survey survey, int id)
         {
+            Question quest = db.Questions.FirstOrDefault(x => x.Id == id);
+            survey.SurveyQuestions.Add(quest);
+
+            db.Update(survey);
+            db.SaveChanges();
+            return Ok(survey);
+
         }
 
          // Remove questions from question list in survey: [DELETE]/surveyquestions/{questionI
         [HttpDelete("{id}")]
-        public void DeleteSurveyQuestion(int id)
+        public IActionResult DeleteSurveyQuestion(Survey survey, int id)
         {
+            Question quest = db.Questions.FirstOrDefault(x => x.Id == id);
+            survey.SurveyQuestions.Remove(quest);
+
+            db.Update(survey);
+            db.SaveChanges();
+            return Ok(survey);
+
         }
     }
 }

@@ -19,7 +19,7 @@ namespace SurveyWebAPI.Controllers
 
         // List all surveys: [GET]/surveys
         [HttpGet]
-        public IEnumerable<string> GetSurveys()
+        public IEnumerable<Survey> GetSurveys()
         {
              return db.Surveys.ToList();
         }
@@ -27,27 +27,56 @@ namespace SurveyWebAPI.Controllers
         
         // Get info for a single survey: [GET]/survey/{id}
         [HttpGet("{id}")]
-        public string GetSurvey(int id)
+        public IActionResult GetSurvey(int id)
         {
-            return "value";
+            Survey survey = db.Surveys.FirstOrDefault(x => x.Id == id);
+            if (survey == null) return NotFound();
+            return new ObjectResult(survey);
         }
 
         // Create survey: [POST]/survey
         [HttpPost]
-        public void PostSurvey([FromBody]string value)
+        public IActionResult PostSurvey([FromBody]Survey survey)
         {
+            if (survey == null)
+            {
+                return BadRequest();
+            }
+            db.Surveys.Add(survey);
+            db.SaveChanges();
+            return Ok(survey);
         }
 
         // Edit survey: [PUT]/survey/{id}
         [HttpPut("{id}")]
-        public void PutSurvey(int id, [FromBody]string value)
+        public IActionResult PutSurvey(Survey survey)
         {
+            if (survey == null)
+            {
+                return BadRequest();
+            }
+
+            if (!db.Surveys.Any(x => x.Id == survey.Id))
+            {
+                return NotFound();
+            }
+
+            db.Update(survey);
+            db.SaveChanges();
+            return Ok(survey);
+
         }
 
         // Delete survey: [DELETE] ]/survey/{id}
         [HttpDelete("{id}")]
-        public void DeleteSurvey(int id)
+        public IActionResult DeleteSurvey(int id)
         {
+            Survey survey = db.Surveys.FirstOrDefault(x => x.Id == id);
+            if (survey == null) return NotFound();
+
+            db.Surveys.Remove(survey);
+            db.SaveChanges();
+            return Ok(survey);
         }
      }
 }
