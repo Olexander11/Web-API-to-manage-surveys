@@ -4,21 +4,34 @@
     ViewBag.Title = "Surveys";
 }
 
-    <h2>List of surveys</h2>
- 
-    @if (!Model.Any())
-    {
-        <p>List of surveys is empty</p>
-    }
 
-    @if (Model.Any())
-    {
-        <ul>
-            @foreach (Survey sur in Model)
-            {
+<table>
+<tr>
+    <td>
+        <h2>List of surveys</h2>
+    </td>
+    <td>
+        <a href='@Url.Action("CreateSur", "Home")'>
+            <input type='button' value='Create new survey' />
+        </a>
+    </td>
+    >
+</tr>
+</table>
 
-                <li> @Html.ActionLink(sur.Name, "Survey", new { id = sur.Id }, null)</li>
+@if (!Model.Any())
+{
+    <p>List of surveys is empty</p>
+}
 
-            }
-        </ul>
-    }
+@if (Model.Any())
+{
+    <ul>
+        @foreach (Survey sur in Model)
+        {
+
+            <li> @Html.ActionLink(sur.Name, "Survey", new { id = sur.Id }, null)</li>
+
+        }
+    </ul>
+}

@@ -28,6 +28,15 @@ namespace SurveyWebAPI.Controllers
           return View();
         }
 
+        public RedirectResult SubmitCreateSur(string name, string description)
+        {
+            Survey survey = new Survey { Name = name, Description = description };
+            db.Surveys.Add(survey);
+            db.SaveChanges();
+                        
+            return RedirectPermanent("/Home/Index");
+        }
+
         public IActionResult Survey(int id)
         {
             Survey survey = db.Surveys.FirstOrDefault(x => x.Id == id);
