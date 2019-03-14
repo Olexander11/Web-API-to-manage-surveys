@@ -22,7 +22,7 @@ namespace SurveyWebAPI.Controllers
         public IEnumerable<Question> GetSurveyQuestions(int id)
         {
             Survey survey = db.Surveys.FirstOrDefault(x => x.Id == id);
-            return  survey.SurveyQuestions.ToList();
+            return  survey.Questions.ToList();
             
         }
 
@@ -31,7 +31,7 @@ namespace SurveyWebAPI.Controllers
         public IActionResult PostSurveyQuestion(Survey survey, int id)
         {
             Question quest = db.Questions.FirstOrDefault(x => x.Id == id);
-            survey.SurveyQuestions.Add(quest);
+            survey.Questions.Add(quest);
 
             db.Update(survey);
             db.SaveChanges();
@@ -44,7 +44,7 @@ namespace SurveyWebAPI.Controllers
         public IActionResult DeleteSurveyQuestion(Survey survey, int id)
         {
             Question quest = db.Questions.FirstOrDefault(x => x.Id == id);
-            survey.SurveyQuestions.Remove(quest);
+            survey.Questions.Remove(quest);
 
             db.Update(survey);
             db.SaveChanges();

@@ -1,0 +1,39 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8">
+    <title>@ViewBag.Title</title>
+    <style>
+        #footer {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            height: 2.5rem;
+        }
+
+
+
+    </style>
+
+</head>
+
+    <body>
+        <div class="header">
+            <div>
+                  <p>@Html.ActionLink("Home", "Index")</p>
+            </div>
+        </div>
+
+        <div>
+            @RenderBody()
+        </div>
+
+        <footer id="footer">
+            <p>© 2019 - KPMG StudyProject</p>
+        </footer>
+    </body>
+
+
+
+</html>

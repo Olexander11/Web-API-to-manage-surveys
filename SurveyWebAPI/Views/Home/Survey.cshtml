@@ -1,0 +1,69 @@
+﻿@using SurveyWebAPI.Models;
+@model List<Question>
+@{
+    ViewBag.Title = "Survey";
+}
+<table>
+    <tr>
+        <td>
+            <h2>@ViewData["SurveyName"]</h2>
+        </td>
+        <td>
+            <a href='@Url.Action("AddQuestion", "Home")'>
+                <input type='button' value='Add more Question'/>
+            </a>
+        </td>
+        >
+    </tr>
+</table>
+
+
+    @if (Model == null)
+    {
+        <p>List of question is empty</p>
+    }
+
+    @if (Model != null)
+    {
+
+        <table>
+            @foreach (Question quest in Model)
+            {
+                <tr>
+                    <td>
+                        <p>@quest.Name</p>
+                        <br />
+                        <p>@quest.Description</p>
+                    </td>
+                    <td>
+                        @{
+                            List<Answear> answears = quest.QuestionAnswears;
+                            @if (answears == null)
+                            {
+                                <p>No answears have been set</p>
+                            }
+
+                            @if (answears != null)
+                            {
+                                <ul>
+                                    foreach (Answear answ in answears) {
+                                    <li>
+                                        answ.Name
+                                    </li>
+                                    }
+
+                                    }
+                                </ul>
+
+                            }
+
+
+
+                        }
+                    </td>
+                </tr>
+
+            }
+        </table>
+    }
+
