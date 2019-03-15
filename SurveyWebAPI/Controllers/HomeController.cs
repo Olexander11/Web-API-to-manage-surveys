@@ -37,6 +37,18 @@ namespace SurveyWebAPI.Controllers
             return RedirectPermanent("/Home/Index");
         }
 
+        public RedirectResult SubmitAddQuestion(int idSur, int IdQuest )
+        {
+            Survey survey = db.Surveys.FirstOrDefault(x => x.Id == idSur);
+            Question question = db.Questions.FirstOrDefault(x => x.Id == IdQuest);
+            survey.Questions.Add(question);
+
+            db.Update(survey);
+            db.SaveChanges();
+
+            return RedirectPermanent("/Home/AddQuestion?id="+ idSur);
+        }
+
         public IActionResult Survey(int id)
         {
             Survey survey = db.Surveys.FirstOrDefault(x => x.Id == id);
@@ -46,9 +58,21 @@ namespace SurveyWebAPI.Controllers
             return View(questions);
         }
 
-        public IActionResult AddQuestion()
+        public IActionResult AddQuestion(int id)
         {
-            return View();
+            Survey survey = db.Surveys.FirstOrDefault(x => x.Id == id);
+            ViewData["SurveyName"] = survey.Name;
+            ViewData["Id"] = survey.Id;
+            List<Question> questions = db.Questions.ToList();
+            if ( survey.Questions.ToList()!=null) {
+                foreach (Question item in survey.Questions.ToList())
+                {
+                    questions.Remove(item);
+                }
+            }
+                   
+            
+            return View(questions);
         }
     }
 }

@@ -1,7 +1,26 @@
-﻿
+﻿@using SurveyWebAPI.Models;
+@model List<Question>
 @{
     ViewBag.Title = "Add Question";
 }
 
-<h2>Add  Question</h2>
 
+<table>
+    <tr>
+        <td>
+            <h2><h2>Add  Question to  @ViewData["SurveyName"]</h2></h2>
+        </td>
+        <td>
+            @Html.ActionLink("Back to Survey", "Survey", new { id = ViewData["Id"] }, null)
+        </td>
+        >
+    </tr>
+</table>
+<div>
+        <p>Click on question in list to added in survey</p><br/>
+         <ul>
+             @foreach(Question item  in Model) {
+                <li> @Html.ActionLink(item.Name, "SubmitAddQuestion", new { idSur = ViewData["Id"], IdQues = item.Id }, null)  </li>
+             }
+         <ul>
+ </div>  
