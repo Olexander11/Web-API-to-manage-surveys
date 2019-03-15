@@ -7,10 +7,10 @@
 
 <table>
 <tr>
-    <td>
+    <td style=" width: 50%">
         <h2>List of surveys</h2>
     </td>
-    <td>
+    <td style="text-align: right">
         <a href='@Url.Action("CreateSur", "Home")'>
             <input type='button' value='Create new survey' />
         </a>
@@ -30,7 +30,10 @@
         @foreach (Survey sur in Model)
         {
 
-            <li> @Html.ActionLink(sur.Name, "Survey", new { id = sur.Id }, null)</li>
+        <li>
+            <span class="maintext">@Html.ActionLink(sur.Name, "Survey", new { id = sur.Id }, null)</span> <br />
+            <span class="descrtext">@sur.Description</span><br /><hr />
+        </li>
 
         }
     </ul>

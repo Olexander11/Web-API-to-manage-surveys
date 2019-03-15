@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27703.2000
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SurveyWebAPI", "SurveyWebAPI\SurveyWebAPI.csproj", "{C885092A-0869-4EA6-859C-F056D660498C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SurveyWebAPI", "SurveyWebAPI\SurveyWebAPI.csproj", "{C885092A-0869-4EA6-859C-F056D660498C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTestSurveyWebAPI", "UnitTestSurveyWebAPI\UnitTestSurveyWebAPI.csproj", "{D77DD901-0EB2-4C52-A294-BED47D68E108}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{C885092A-0869-4EA6-859C-F056D660498C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C885092A-0869-4EA6-859C-F056D660498C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C885092A-0869-4EA6-859C-F056D660498C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D77DD901-0EB2-4C52-A294-BED47D68E108}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D77DD901-0EB2-4C52-A294-BED47D68E108}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D77DD901-0EB2-4C52-A294-BED47D68E108}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D77DD901-0EB2-4C52-A294-BED47D68E108}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using SurveyWebAPI.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace SurveyWebAPI.Controllers
 {
@@ -19,6 +20,8 @@ namespace SurveyWebAPI.Controllers
         public IActionResult Index()
         {
             List<Survey> surveys = db.Surveys.ToList();
+
+
 
             return View(surveys);
         }
@@ -37,42 +40,53 @@ namespace SurveyWebAPI.Controllers
             return RedirectPermanent("/Home/Index");
         }
 
-        public RedirectResult SubmitAddQuestion(int idSur, int IdQuest )
+        public RedirectResult SubmitCreateQuestion(int idSur, string name, string description, List<string> items)
         {
-            Survey survey = db.Surveys.FirstOrDefault(x => x.Id == idSur);
-            Question question = db.Questions.FirstOrDefault(x => x.Id == IdQuest);
-            survey.Questions.Add(question);
+            Survey survey = db.Surveys.Include(s => s.Questions).FirstOrDefault(x => x.Id == idSur);
+           
+            List<Answer> answears = new List<Answer>();
+            foreach(string it in items)
+            {
+                if (it == null) continue;
+                Answer answear = new Answer {Name = it };
+                answears.Add(answear);
+               
+            }
 
-            db.Update(survey);
+            Question question = new Question { Name = name, Description = description, QuestionAnswers = answears };
+                     
+           
+            survey.Questions.Add(question);                    
+           
             db.SaveChanges();
 
-            return RedirectPermanent("/Home/AddQuestion?id="+ idSur);
+            return RedirectPermanent("/Home/CraeteQuestion?id=" + idSur);
         }
 
         public IActionResult Survey(int id)
         {
-            Survey survey = db.Surveys.FirstOrDefault(x => x.Id == id);
-            List <Question> questions = survey.Questions; ;
+            Survey survey = db.Surveys.Include(s =>s.Questions).FirstOrDefault(x => x.Id == id);
+            List<Question> questions = survey.Questions;
+            if (questions != null)
+            {
+                foreach(Question question in questions)
+                {
+                    db.Entry(question).Collection(x => x.QuestionAnswers).Load();
+                }
+            }
             ViewData["SurveyName"] = survey.Name;
-
+            ViewData["SurveId"] = survey.Id;
             return View(questions);
         }
 
-        public IActionResult AddQuestion(int id)
+        public IActionResult CraeteQuestion(int id)
         {
             Survey survey = db.Surveys.FirstOrDefault(x => x.Id == id);
             ViewData["SurveyName"] = survey.Name;
             ViewData["Id"] = survey.Id;
-            List<Question> questions = db.Questions.ToList();
-            if ( survey.Questions.ToList()!=null) {
-                foreach (Question item in survey.Questions.ToList())
-                {
-                    questions.Remove(item);
-                }
-            }
-                   
+                     
             
-            return View(questions);
+            return View();
         }
     }
 }

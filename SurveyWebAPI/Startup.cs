@@ -25,7 +25,7 @@ namespace SurveyWebAPI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            string connection = Configuration.GetConnectionString("DefaultConnection");
+            string connection = "Data Source = (LocalDB)\\MSSQLLocalDB; Database = surveydb; Integrated Security = False; Connect Timeout = 30";// Configuration.GetConnectionString("DefaultConnection");
             services.AddDbContext<SurveyContext>(options => options.UseSqlServer(connection));
 
             services.AddMvc();

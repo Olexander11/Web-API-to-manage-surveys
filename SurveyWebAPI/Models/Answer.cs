@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace SurveyWebAPI.Models
 {
-    public class Answear
+    public class Answer
     {
         public long Id { get; set; }
         public string Name { get; set; }

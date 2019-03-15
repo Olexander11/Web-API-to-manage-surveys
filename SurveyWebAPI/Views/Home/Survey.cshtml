@@ -5,54 +5,59 @@
 }
 <table>
     <tr>
-        <td>
+        <td style=" width: 50%">
             <h2>@ViewData["SurveyName"]</h2>
         </td>
-        <td>
-            <a href='@Url.Action("AddQuestion", "Home")'>
-                <input type='button' value='Add more Question'/>
+        <td style="text-align: right">
+            <a href='@Url.Action("CraeteQuestion", "Home", new { id = ViewData["SurveId"] })'>
+                <input type='button' value='Add new Question'/>
             </a>
         </td>
-        >
+      
     </tr>
 </table>
 
-
-    @if (Model == null)
+  
+    @if (Model.Count == 0)
     {
         <p>List of question is empty</p>
     }
 
-    @if (Model != null)
+    @if (Model.Count != 0)
     {
 
         <table>
             @foreach (Question quest in Model)
             {
-                <tr>
-                    <td>
-                        <p>@quest.Name</p>
-                        <br />
-                        <p>@quest.Description</p>
-                    </td>
+
+                <tr style="border-bottom: 1px solid black;">
+                    <td style="border: 1px solid black; width: 50%" >
+                        
+                            <span class="maintext">@quest.Name</span><br />
+                            <span class="descrtext"> @quest.Description</span>
+                        
+</td>
                     <td>
                         @{
-                            List<Answear> answears = quest.QuestionAnswears;
-                            @if (answears == null)
+                            List<Answer> answers = quest.QuestionAnswers;
+                                                       
+                            
+                            @if (answers.Count == 0)
                             {
-                                <p>No answears have been set</p>
+                                <p>No answers have been set</p>
                             }
 
-                            @if (answears != null)
+                            @if (answers != null)
                             {
                                 <ul>
-                                    foreach (Answear answ in answears) {
-                                    <li>
-                                        answ.Name
-                                    </li>
+                                    @foreach (Answer answ in answers)
+                                    {
+                                        <li>
+                                            @answ.Name
+                                        </li>
                                     }
 
-                                    }
+
                                 </ul>
 
                             }
@@ -62,6 +67,7 @@
                         }
                     </td>
                 </tr>
+                
 
             }
         </table>

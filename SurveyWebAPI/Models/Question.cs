@@ -7,6 +7,6 @@ namespace SurveyWebAPI.Models
         public long Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
-        public List<Answear> QuestionAnswears { get; set; }
+        public List<Answer> QuestionAnswers { get; set; }
     }
 }

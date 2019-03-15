@@ -1,0 +1,55 @@
+﻿@using  SurveyWebAPI.Models;
+@model SurveyWebAPI.Models.Question
+@{
+    ViewBag.Title = "Create new Question";
+}
+<script>
+    $(function () {
+
+        $("#add").click(function (e) {
+            e.preventDefault();
+            var m = '<label style="padding: 5px;" >Input answer   </label>';
+            var n = '<input style="padding: 5px;" type="text" name="items" /> <br />';
+            
+            $("#item-list").append(m);
+            $("#item-list").append(n);
+        });
+
+    });
+</script>
+
+
+<table>
+    <tr>
+        <td style=" width: 50%">
+            <h2>@ViewData["SurveyName"]</h2>
+        </td>
+        <td style="text-align: right">
+            <a href='@Url.Action("Survey", "Home", new { id = @ViewData["Id"] })'>
+                <input type='button' value='Back to Survey' />
+            </a>
+        </td>
+       
+    </tr>
+</table>
+
+<h3>Add new question </h3>
+
+<input type="hidden" value="@ViewData["Id"]" name="idSur" />
+<form method="post" action="/Home/SubmitCreateQuestion">
+    <div class="question">
+        <input type="hidden" value="@ViewData["Id"]" name="idSur" />
+        
+        <label style="padding: 5px; margin: 5" >Input new Question  </label>
+        <input style="padding: 5px; margin: 5"  type="text" name="name" /> <br />
+        <label style="padding: 5px; margin: 5"  >Input Description   </label>
+        <input style="padding: 5px; margin: 5"   type="text" name="description" /> <br />
+        <div class="form-group" id="item-list">
+        <a href="#" id="add" style="padding: 5px; margin: 5"  >Add the number of answers</a><br />
+        </div>
+    </div>
+    <input type="submit" value="Create" class="btn btn-default" />
+</form>
+
+
+
