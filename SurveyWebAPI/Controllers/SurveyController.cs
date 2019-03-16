@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using SurveyWebAPI.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace SurveyWebAPI.Controllers
 {
@@ -17,20 +18,12 @@ namespace SurveyWebAPI.Controllers
             this.db = context;
                      
         }
-
-        // List all surveys: [GET]/surveys
-        [HttpGet]
-        public IEnumerable<Survey> GetSurveys()
-        {
-             return db.Surveys.ToList();
-        }
-
-        
+                
         // Get info for a single survey: [GET]/survey/{id}
         [HttpGet("{id}")]
         public IActionResult GetSurvey(int id)
         {
-            Survey survey = db.Surveys.FirstOrDefault(x => x.Id == id);
+            Survey survey = db.Surveys.Include(s => s.Questions).FirstOrDefault(x => x.Id == id);
             if (survey == null) return NotFound();
             return new ObjectResult(survey);
         }
@@ -44,6 +37,26 @@ namespace SurveyWebAPI.Controllers
                 return BadRequest();
             }
             db.Surveys.Add(survey);
+            db.SaveChanges();
+            return Ok(survey);
+        }
+
+        // Create survey: [POST]/survey
+        [HttpPost]
+        public IActionResult PostSurvey(int id, [FromBody]Question question)
+        {
+            if (question == null)
+            {
+                return BadRequest();
+            }
+            if (!db.Surveys.Any(x => x.Id == id))
+            {
+                return NotFound();
+            }
+
+            Survey survey = db.Surveys.Include(s => s.Questions).FirstOrDefault(x => x.Id == id);
+            
+            survey.Questions.Add(question);
             db.SaveChanges();
             return Ok(survey);
         }
@@ -80,4 +93,23 @@ namespace SurveyWebAPI.Controllers
             return Ok(survey);
         }
      }
+
+    [Route("api/[controller]")]
+    public class SurveysController : Controller
+    {
+        SurveyContext db;
+
+        public SurveysController(SurveyContext context)
+        {
+            this.db = context;
+
+        }
+
+        // List all surveys: [GET]/surveys
+        [HttpGet]
+        public IEnumerable<Survey> GetSurveys()
+        {
+            return db.Surveys.ToList();
+        }
+    }
 }

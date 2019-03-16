@@ -17,13 +17,7 @@ namespace SurveyWebAPI.Controllers
             this.db = context;
         }
 
-         // List all questions: [GET]/questions
-        [HttpGet]
-        public IEnumerable<Question> GetQuestions()
-        {
-            return db.Questions.ToList();
-        }
-                
+      
         // Get info for a single question: [GET]/question/{id}
         [HttpGet("{id}")]
         public IActionResult GetQuestion(int id)
@@ -33,7 +27,7 @@ namespace SurveyWebAPI.Controllers
                 return NotFound();
             return new ObjectResult(quest);
         }
-                
+
         // Create question: [POST]/question
         [HttpPost]
         public IActionResult PostQuestion([FromBody]Question question)
@@ -48,7 +42,7 @@ namespace SurveyWebAPI.Controllers
             return Ok(question);
         }
 
-              
+
         // Edit question: [PUT]/question/{id}
         [HttpPut("{id}")]
         public IActionResult PutQuestion([FromBody]Question question)
@@ -67,16 +61,34 @@ namespace SurveyWebAPI.Controllers
             return Ok(question);
         }
 
-        
+
         // Delete question: [DELETE] ]/question/{id}
         [HttpDelete("{id}")]
         public IActionResult DeleteQuestion(int id)
         {
             Question quest = db.Questions.FirstOrDefault(x => x.Id == id);
-            if (quest == null)     return NotFound();
+            if (quest == null) return NotFound();
             db.Questions.Remove(quest);
             db.SaveChanges();
             return Ok(quest);
         }
-     }
+    }
+
+    [Route("api/[controller]")]
+    public class QuestionsController : Controller
+    {
+        SurveyContext db;
+
+        public QuestionsController(SurveyContext context)
+        {
+            this.db = context;
+        }
+
+        // List all questions: [GET]/questions
+        [HttpGet]
+        public IEnumerable<Question> GetQuestions()
+        {
+            return db.Questions.ToList();
+        }
+    }
 }

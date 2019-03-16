@@ -7,19 +7,20 @@ using Xunit;
 
 namespace UnitTestSurveyWebAPI
 {
-    public class UnitTest1
+    public class UnitTestSurvey
     {
 
         HttpClient httpClient;
 
-        public UnitTest1()
+        public UnitTestSurvey()
         {
             var server = new TestServer(new WebHostBuilder().UseStartup<SurveyWebAPI.Startup>());
             httpClient = server.CreateClient();
         }
 
+        //List all surveys: [GET]/surveys
         [Fact]
-        public async void Test1()
+        public async void TestGET() 
         {
 
            var survey = await httpClient.GetAsync("api/Survey");
@@ -28,8 +29,7 @@ namespace UnitTestSurveyWebAPI
             Assert.Equal(System.Net.HttpStatusCode.OK, survey.StatusCode);
 
             var string1 = survey.Content.ReadAsStringAsync();
-
-
+            
         }
     }
 }

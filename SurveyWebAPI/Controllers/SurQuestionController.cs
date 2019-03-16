@@ -4,15 +4,16 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using SurveyWebAPI.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace SurveyWebAPI.Controllers
 {
     [Route("api/[controller]")]
-    public class SurQuestionController : Controller
+    public class SurveyQuestionsController : Controller
     {
         SurveyContext db;
 
-        public SurQuestionController(SurveyContext context)
+        public SurveyQuestionsController(SurveyContext context)
         {
             this.db = context;
         }
@@ -21,7 +22,7 @@ namespace SurveyWebAPI.Controllers
         [HttpGet]
         public IEnumerable<Question> GetSurveyQuestions(int id)
         {
-            Survey survey = db.Surveys.FirstOrDefault(x => x.Id == id);
+            Survey survey = db.Surveys.Include(s => s.Questions).FirstOrDefault(x => x.Id == id);
             return  survey.Questions.ToList();
             
         }
