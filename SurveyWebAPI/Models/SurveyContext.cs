@@ -1,10 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace SurveyWebAPI.Models
 {
@@ -22,6 +18,19 @@ namespace SurveyWebAPI.Models
         public SurveyContext()
         {
             Database.EnsureCreated();
+        }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Survey>()
+                .HasMany<Question>(p => p.Questions)
+                .WithOne(t => t.Parent)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<Question>()
+               .HasMany<Answer>(p => p.QuestionAnswers)
+               .WithOne(t => t.Parent)
+               .OnDelete(DeleteBehavior.Cascade);
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

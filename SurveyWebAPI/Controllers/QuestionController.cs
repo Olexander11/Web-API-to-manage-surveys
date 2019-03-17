@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using SurveyWebAPI.Models;
 
 namespace SurveyWebAPI.Controllers
@@ -22,7 +23,7 @@ namespace SurveyWebAPI.Controllers
         [HttpGet("{id}")]
         public IActionResult GetQuestion(int id)
         {
-            Question quest = db.Questions.FirstOrDefault(x => x.Id == id);
+            Question quest = db.Questions.Include(x =>x.QuestionAnswers).FirstOrDefault(x => x.Id == id);
             if (quest == null)
                 return NotFound();
             return new ObjectResult(quest);
@@ -45,17 +46,17 @@ namespace SurveyWebAPI.Controllers
 
         // Edit question: [PUT]/question/{id}
         [HttpPut("{id}")]
-        public IActionResult PutQuestion([FromBody]Question question)
+        public IActionResult PutQuestion(int id, [FromBody]Question question)
         {
             if (question == null)
             {
                 return BadRequest();
             }
-            if (!db.Questions.Any(x => x.Id == question.Id))
+            if (!db.Questions.Any(x => x.Id == id))
             {
                 return NotFound();
             }
-
+            question.Id = id;
             db.Update(question);
             db.SaveChanges();
             return Ok(question);

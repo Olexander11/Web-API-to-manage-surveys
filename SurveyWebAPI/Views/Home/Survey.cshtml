@@ -9,7 +9,7 @@
             <h2>@ViewData["SurveyName"]</h2>
         </td>
         <td style="text-align: right">
-            <a href='@Url.Action("CraeteQuestion", "Home", new { id = ViewData["SurveId"] })'>
+            <a href='@Url.Action("CreateQuestion", "Home", new { id = ViewData["SurveId"] })'>
                 <input type='button' value='Add new Question'/>
             </a>
         </td>
@@ -30,14 +30,14 @@
             @foreach (Question quest in Model)
             {
 
-                <tr style="border-bottom: 1px solid black;">
+                <tr>
                     <td style="border: 1px solid black; width: 50%" >
                         
                             <span class="maintext">@quest.Name</span><br />
                             <span class="descrtext"> @quest.Description</span>
                         
 </td>
-                    <td>
+                    <td style="border: 1px solid black;">
                         @{
                             List<Answer> answers = quest.QuestionAnswers;
                                                        

@@ -41,40 +41,21 @@ namespace SurveyWebAPI.Controllers
             return Ok(survey);
         }
 
-        // Create survey: [POST]/survey
-        [HttpPost]
-        public IActionResult PostSurvey(int id, [FromBody]Question question)
-        {
-            if (question == null)
-            {
-                return BadRequest();
-            }
-            if (!db.Surveys.Any(x => x.Id == id))
-            {
-                return NotFound();
-            }
-
-            Survey survey = db.Surveys.Include(s => s.Questions).FirstOrDefault(x => x.Id == id);
-            
-            survey.Questions.Add(question);
-            db.SaveChanges();
-            return Ok(survey);
-        }
-
+       
         // Edit survey: [PUT]/survey/{id}
         [HttpPut("{id}")]
-        public IActionResult PutSurvey(Survey survey)
+        public IActionResult PutSurvey(int id, [FromBody]Survey survey)
         {
             if (survey == null)
             {
                 return BadRequest();
             }
 
-            if (!db.Surveys.Any(x => x.Id == survey.Id))
+            if (!db.Surveys.Any(x => x.Id == id))
             {
                 return NotFound();
             }
-
+            survey.Id = id;
             db.Update(survey);
             db.SaveChanges();
             return Ok(survey);

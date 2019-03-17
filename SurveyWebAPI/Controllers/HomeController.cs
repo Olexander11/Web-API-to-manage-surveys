@@ -60,7 +60,7 @@ namespace SurveyWebAPI.Controllers
            
             db.SaveChanges();
 
-            return RedirectPermanent("/Home/CraeteQuestion?id=" + idSur);
+            return RedirectPermanent("/Home/CreateQuestion?id=" + idSur);
         }
 
         public IActionResult Survey(int id)
@@ -79,7 +79,7 @@ namespace SurveyWebAPI.Controllers
             return View(questions);
         }
 
-        public IActionResult CraeteQuestion(int id)
+        public IActionResult CreateQuestion(int id)
         {
             Survey survey = db.Surveys.FirstOrDefault(x => x.Id == id);
             ViewData["SurveyName"] = survey.Name;
